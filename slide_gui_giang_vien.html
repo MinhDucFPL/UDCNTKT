@@ -1,0 +1,2713 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bản Đồ AI & Nghề Nghiệp Quản Trị Kinh Doanh | ECO384 - Báo Cáo Giảng Viên</title>
+  <style>
+    :root {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #111827;
+      --bg-card: rgba(17, 24, 39, 0.85);
+      --bg-glass: rgba(255, 255, 255, 0.04);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --border-hover: rgba(56, 189, 248, 0.4);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --color-primary: #38bdf8;   /* Cyan */
+      --color-ai-high: #10b981;   /* Emerald Green - AI làm chủ */
+      --color-ai-hybrid: #f59e0b; /* Amber Yellow - Phối hợp */
+      --color-human: #ef4444;     /* Rose Red - Con người */
+      --color-accent: #8b5cf6;    /* Purple */
+
+      --line-ta: #10b981;
+      --line-ld: #8b5cf6;
+      --line-cb: #f59e0b;
+      --line-er: #ef4444;
+
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP NAVBAR */
+    .top-nav {
+      height: 56px;
+      background: rgba(10, 14, 23, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-badge {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: -0.2px;
+    }
+
+    .nav-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      border-left: 1px solid var(--border-color);
+      padding-left: 10px;
+      margin-left: 10px;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .nav-btn.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .slide-counter {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 0 8px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* MAIN STAGE */
+    .deck-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .slide-viewport {
+      width: 100%;
+      max-width: 1420px;
+      height: 100%;
+      max-height: 840px;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* SLIDE LAYOUTS */
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 32px 44px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.98) translateY(12px);
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1) translateY(0);
+      z-index: 10;
+    }
+
+    /* SLIDE HEADER */
+    .slide-header {
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .slide-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .slide-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+
+    .slide-subtitle {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .slide-body {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* SLIDE 1: COVER SLIDE */
+    .cover-layout {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .cover-headline {
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+
+    .cover-highlight {
+      color: var(--color-primary);
+      -webkit-text-fill-color: var(--color-primary);
+    }
+
+    .cover-desc {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 26px;
+      max-width: 580px;
+    }
+
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .meta-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      padding: 12px 16px;
+      border-radius: 10px;
+    }
+
+    .meta-label {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .meta-value {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .cover-visual-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 12px 16px;
+      border-radius: 12px;
+    }
+
+    .stat-num {
+      font-size: 26px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* SLIDE 2: BỐI CẢNH & NGHỊCH LÝ KÉP */
+    .dilemma-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .dilemma-card {
+      background: var(--bg-glass);
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dilemma-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    .card-tech::before { background: linear-gradient(90deg, #10b981, #06b6d4); }
+    .card-human::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+
+    .card-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      width: fit-content;
+      margin-bottom: 14px;
+    }
+
+    .card-tech .card-badge { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .card-human .card-badge { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+    .dilemma-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .dilemma-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .dilemma-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .dilemma-item strong {
+      color: var(--text-main);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .card-tech .dot { background: #10b981; box-shadow: 0 0 8px #10b981; }
+    .card-human .dot { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+
+    .dilemma-bottom-callout {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      border-left: 3px solid;
+    }
+
+    .card-tech .dilemma-bottom-callout { border-color: #10b981; color: #a7f3d0; }
+    .card-human .dilemma-bottom-callout { border-color: #ef4444; color: #fecdd3; }
+
+    /* ============================================================ */
+    /* SLIDE 3: BẢN ĐỒ TƯƠNG TÁC + SƠ ĐỒ TƯ DUY (MINDMAP) + MINIMAP */
+    /* ============================================================ */
+    .map-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: 12px;
+    }
+
+    .map-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 8px 14px;
+      flex-shrink: 0;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .view-toggle {
+      display: flex;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .view-btn.active {
+      background: #38bdf8;
+      color: #0b1120;
+      box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .filter-chip {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .filter-chip:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+
+    .filter-chip.active {
+      background: #fff;
+      color: #0f172a;
+      border-color: #fff;
+    }
+
+    .toolbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tool-icon-btn {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tool-icon-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    /* MINDMAP INTERACTIVE VIEWPORT */
+    .mindmap-wrapper {
+      flex: 1;
+      position: relative;
+      background: radial-gradient(circle at center, rgba(30, 41, 59, 0.45) 0%, rgba(10, 14, 23, 0.95) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .mindmap-wrapper:active {
+      cursor: grabbing;
+    }
+
+    .mindmap-world {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1400px;
+      height: 750px;
+      transform-origin: 0 0;
+    }
+
+    .mindmap-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1400px;
+      height: 750px;
+      pointer-events: none;
+    }
+
+    .mindmap-edge {
+      fill: none;
+      stroke-width: 2.5px;
+      stroke-linecap: round;
+      transition: stroke 0.3s, opacity 0.3s, stroke-width 0.2s;
+    }
+
+    .mindmap-edge.dimmed {
+      opacity: 0.15;
+    }
+
+    /* MINDMAP NODES */
+    .mnode {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s, opacity 0.3s;
+      z-index: 10;
+    }
+
+    .mnode.dimmed {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    /* ROOT NODE */
+    .mnode-root {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      padding: 16px 24px;
+      border-radius: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 35px rgba(37, 99, 235, 0.6);
+      text-align: center;
+      z-index: 20;
+    }
+
+    .mnode-root:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+      box-shadow: 0 0 45px rgba(56, 189, 248, 0.8);
+    }
+
+    .root-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #bae6fd;
+      font-weight: 700;
+    }
+
+    .root-name {
+      font-size: 16px;
+      font-weight: 800;
+      margin-top: 2px;
+      letter-spacing: -0.3px;
+    }
+
+    .root-meta {
+      font-size: 11px;
+      color: #e0f2fe;
+      margin-top: 2px;
+      opacity: 0.9;
+    }
+
+    /* BRANCH NODES */
+    .mnode-branch {
+      padding: 9px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .mnode-branch:hover {
+      transform: translate(-50%, -50%) scale(1.06);
+    }
+
+    .branch-ta { background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), #059669); }
+    .branch-ld { background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), #7c3aed); }
+    .branch-cb { background: linear-gradient(135deg, rgba(245, 158, 11, 0.9), #d97706); }
+    .branch-er { background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), #dc2626); }
+
+    /* TASK NODES */
+    .mnode-task {
+      width: 230px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 10px 14px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mnode-task:hover {
+      transform: translate(-50%, -50%) scale(1.06);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--color-primary);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      z-index: 15;
+    }
+
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-code {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--text-dim);
+    }
+
+    .task-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .badge-high { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .badge-hybrid { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .badge-human { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+    .task-verb {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .task-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* RADAR MINIMAP (FLOATING CORNER COMPASS) */
+    .minimap-container {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 170px;
+      height: 100px;
+      background: rgba(10, 14, 23, 0.92);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      z-index: 30;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    .minimap-header {
+      position: absolute;
+      top: 4px;
+      left: 6px;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: var(--color-primary);
+      text-transform: uppercase;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .minimap-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .minimap-lens {
+      position: absolute;
+      border: 1.5px solid #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      border-radius: 2px;
+      pointer-events: none;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+    }
+
+    /* BOARD VIEW (ALTERNATIVE TAB) */
+    .map-board {
+      flex: 1;
+      display: none; /* hidden by default, toggled via tab */
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .map-board.active {
+      display: grid;
+    }
+
+    .map-pillar {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pillar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 6px;
+    }
+
+    .pillar-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pillar-ta .pillar-title { color: var(--line-ta); }
+    .pillar-ld .pillar-title { color: var(--line-ld); }
+    .pillar-cb .pillar-title { color: var(--line-cb); }
+    .pillar-er .pillar-title { color: var(--line-er); }
+
+    .node-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .map-node {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .map-node:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--color-primary);
+    }
+
+    .node-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .node-code {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-dim);
+    }
+
+    .level-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .level-ai-high { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .level-ai-hybrid { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .level-human { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+    .node-verb {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .node-metric {
+      margin-top: 4px;
+      font-size: 10.5px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* MAP INSPECTION MODAL / DRAWER */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-box {
+      width: 90%;
+      max-width: 720px;
+      background: #111827;
+      border: 1px solid var(--border-hover);
+      border-radius: 16px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transform: scale(0.95);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .drawer-overlay.open .drawer-box {
+      transform: scale(1);
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+    }
+
+    .drawer-title-group h3 {
+      font-size: 17px;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .drawer-title-group p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .drawer-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .drawer-close:hover { color: #fff; }
+
+    .drawer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .drawer-pane {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .drawer-pane-title {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .drawer-pane-content {
+      font-size: 12px;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .human-alert-pane {
+      grid-column: span 2;
+      background: rgba(239, 68, 68, 0.08);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .human-alert-pane .drawer-pane-title {
+      color: #f87171;
+    }
+
+    /* SLIDE 4: PHỄU TUYỂN DỤNG & ĐÀO TẠO */
+    .slide-split-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .funnel-container {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .funnel-step {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .funnel-step.step-1 { border-left: 4px solid #10b981; }
+    .funnel-step.step-2 { border-left: 4px solid #f59e0b; margin: 0 14px; }
+    .funnel-step.step-3 { border-left: 4px solid #ef4444; margin: 0 28px; background: rgba(239, 68, 68, 0.08); }
+
+    .funnel-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .funnel-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .funnel-stat {
+      font-size: 19px;
+      font-weight: 800;
+      text-align: right;
+    }
+
+    /* SLIDE 5: TIỀN LƯƠNG & CHỐT CHẶN PHÁP LÝ */
+    .compare-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      height: 100%;
+    }
+
+    .compare-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .speed-meter {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .speed-big {
+      font-size: 44px;
+      font-weight: 900;
+      color: #38bdf8;
+    }
+
+    .speed-label {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* SLIDE 6: 4 CHIẾC KHIÊN ĐỎ CẤM AI */
+    .shields-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      height: 100%;
+    }
+
+    .shield-card {
+      background: rgba(239, 68, 68, 0.05);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: transform 0.2s;
+    }
+
+    .shield-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(239, 68, 68, 0.6);
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    .shield-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .shield-content h4 {
+      font-size: 14px;
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .shield-content p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .shield-content .legal-tag {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #f87171;
+      background: rgba(239, 68, 68, 0.15);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    /* SLIDE 7: THÁP NĂNG LỰC SINH VIÊN */
+    .pyramid-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      height: 100%;
+      justify-content: center;
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .pyramid-level {
+      border-radius: 12px;
+      padding: 16px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
+    }
+
+    .pyramid-level:hover {
+      transform: scale(1.01);
+    }
+
+    .pyramid-top {
+      background: linear-gradient(90deg, rgba(239, 68, 68, 0.2), rgba(139, 92, 246, 0.2));
+      border-color: rgba(239, 68, 68, 0.4);
+      width: 75%;
+      margin: 0 auto;
+    }
+
+    .pyramid-mid {
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.15), rgba(56, 189, 248, 0.15));
+      border-color: rgba(245, 158, 11, 0.4);
+      width: 88%;
+      margin: 0 auto;
+    }
+
+    .pyramid-base {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.15));
+      border-color: rgba(16, 185, 129, 0.4);
+      width: 100%;
+    }
+
+    .level-info h4 {
+      font-size: 14px;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .level-info p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .level-tag {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    /* SLIDE 8: KẾT LUẬN & HỎI ĐÁP PHẢN BIỆN */
+    .conclude-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .quote-box {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(139, 92, 246, 0.1));
+      border: 1px solid var(--border-hover);
+      border-radius: 14px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .quote-text {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.45;
+      color: #fff;
+    }
+
+    .quote-author {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .qa-box {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 18px 22px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .qa-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--color-primary);
+      margin-bottom: 2px;
+    }
+
+    .qa-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .qa-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .qa-q {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .qa-a {
+      display: none;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+      color: #38bdf8;
+      font-size: 11.5px;
+      line-height: 1.45;
+    }
+
+    .qa-item.open .qa-a {
+      display: block;
+    }
+
+    /* BOTTOM BAR */
+    .bottom-bar {
+      height: 44px;
+      background: rgba(10, 14, 23, 0.95);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      font-size: 11.5px;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .keyboard-hint {
+      display: flex;
+      gap: 10px;
+    }
+
+    .kbd {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: var(--text-muted);
+      font-family: monospace;
+      font-size: 10.5px;
+    }
+
+    @media (max-width: 1024px) {
+      .deck-container { padding: 6px; }
+      .slide { padding: 20px; }
+      .cover-headline { font-size: 26px; }
+      .cover-layout { grid-template-columns: 1fr; gap: 16px; }
+      .map-board { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVIGATION -->
+  <nav class="top-nav">
+    <div class="nav-brand">
+      <span class="nav-badge">ECO384</span>
+      <span class="nav-title">BẢN ĐỒ AI & NGHỀ NGHIỆP QUẢN TRỊ KINH DOANH</span>
+      <span class="nav-subtitle">Bản Trình Chiếu Giảng Viên</span>
+    </div>
+
+    <div class="nav-controls">
+      <button class="nav-btn" id="btnMapQuickJump" onclick="jumpToSlide(3)">
+        <span>🧠</span> Sơ Đồ Tư Duy (Mindmap)
+      </button>
+      <div style="height: 16px; width: 1px; background: var(--border-color);"></div>
+      <button class="nav-btn" onclick="prevSlide()" title="Phím Mũi Tên Trái">◀ Trước</button>
+      <span class="slide-counter" id="slideIndicator">01 / 08</span>
+      <button class="nav-btn" onclick="nextSlide()" title="Phím Mũi Tên Phải / Space">Sau ▶</button>
+      <div style="height: 16px; width: 1px; background: var(--border-color);"></div>
+      <button class="nav-btn" onclick="toggleFullScreen()" title="Phím F">⛶ Toàn màn hình</button>
+    </div>
+  </nav>
+
+  <!-- MAIN DECK STAGE -->
+  <main class="deck-container">
+    <div class="slide-viewport">
+
+      <!-- SLIDE 1: TIÊU ĐỀ BẢO VỆ ĐỒ ÁN -->
+      <section class="slide active" id="slide-1">
+        <div class="cover-layout">
+          <div>
+            <div class="slide-tag"><span>🎓</span> BÁO CÁO THỰC HÀNH BUỔI 2 – HỌC PHẦN ECO384</div>
+            <h1 class="cover-headline">Bản Đồ AI & Nghề Nghiệp<br><span class="cover-highlight">Quản Trị Nhân Sự</span></h1>
+            <p class="cover-desc">
+              Khảo sát toàn diện tác động của Trí tuệ Nhân tạo đến 12 nhiệm vụ cốt lõi của Chuyên viên Nhân sự tại doanh nghiệp Bán lẻ 750 cán bộ nhân viên.
+            </p>
+            <div class="cover-meta-grid">
+              <div class="meta-card">
+                <div class="meta-label">Vị trí nghiên cứu</div>
+                <div class="meta-value">Chuyên viên Nhân sự Tổng hợp</div>
+              </div>
+              <div class="meta-card">
+                <div class="meta-label">Bối cảnh doanh nghiệp</div>
+                <div class="meta-value">VietRetail Corp (750 Nhân sự)</div>
+              </div>
+              <div class="meta-card">
+                <div class="meta-label">Khung chuẩn mực</div>
+                <div class="meta-value">BLLĐ 2019 & Nghị định 13/2023</div>
+              </div>
+              <div class="meta-card">
+                <div class="meta-label">Mục tiêu đầu ra</div>
+                <div class="meta-value">Sơ đồ Tư duy & Radar Phân luồng AI</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cover-visual-card">
+            <div class="stat-pill">
+              <div class="stat-num" style="color: #38bdf8;">12</div>
+              <div class="stat-desc"><strong>Nhiệm vụ phân rã cụ thể</strong><br>Thuộc 4 mảng chức năng quản trị</div>
+            </div>
+            <div class="stat-pill">
+              <div class="stat-num" style="color: #10b981;">-85%</div>
+              <div class="stat-desc"><strong>Thời gian xử lý dữ liệu thô</strong><br>Soạn văn bản, lọc CV & tính bảng lương</div>
+            </div>
+            <div class="stat-pill">
+              <div class="stat-num" style="color: #ef4444;">100%</div>
+              <div class="stat-desc"><strong>Trách nhiệm pháp lý & đạo đức</strong><br>Con người bắt buộc kiểm duyệt tối hậu</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: BỐI CẢNH & NGHỊCH LÝ KÉP -->
+      <section class="slide" id="slide-2">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag">BỐI CẢNH DOANH NGHIỆP</div>
+            <h2 class="slide-title">Nghịch Lý Kép Giữa Tốc Độ Thuật Toán & Trách Nhiệm Con Người</h2>
+          </div>
+          <div class="slide-subtitle">Quy mô: 750 nhân sự • 35 chi nhánh bán lẻ • Biến động nhân sự 28%/năm</div>
+        </div>
+        <div class="slide-body">
+          <div class="dilemma-grid">
+            <div class="dilemma-card card-tech">
+              <div>
+                <span class="card-badge">CƠ HỘI NĂNG SUẤT ĐỘT PHÁ</span>
+                <h3 class="dilemma-title">AI Giải Phóng Cơ Bắp</h3>
+                <ul class="dilemma-list">
+                  <li class="dilemma-item">
+                    <span class="dot"></span>
+                    <div><strong>Soạn thảo bản mô tả công việc (JD):</strong> Rút ngắn từ 2 giờ xuống 15 giây.</div>
+                  </li>
+                  <li class="dilemma-item">
+                    <span class="dot"></span>
+                    <div><strong>Sàng lọc 500 hồ sơ ứng viên:</strong> Thuật toán xếp hạng hoàn tất trong 5 phút.</div>
+                  </li>
+                  <li class="dilemma-item">
+                    <span class="dot"></span>
+                    <div><strong>Tính toán công lương 750 người:</strong> Tự động hóa từ 40 giờ xuống 10 phút.</div>
+                  </li>
+                </ul>
+              </div>
+              <div class="dilemma-bottom-callout">
+                ⚡ <strong>Hệ quả:</strong> 50% công việc bàn giấy của thực tập sinh nhân sự bị thay thế hoàn toàn.
+              </div>
+            </div>
+
+            <div class="dilemma-card card-human">
+              <div>
+                <span class="card-badge">HIỆN THỰC & RÀNG BUỘC PHÁP LÝ</span>
+                <h3 class="dilemma-title">Con Người Giữ Trọng Trách</h3>
+                <ul class="dilemma-list">
+                  <li class="dilemma-item">
+                    <span class="dot"></span>
+                    <div><strong>Ảo giác & Thiên vị thuật toán:</strong> Loại oan ứng viên giỏi nếu thiếu từ khóa rập khuôn.</div>
+                  </li>
+                  <li class="dilemma-item">
+                    <span class="dot"></span>
+                    <div><strong>Lá chắn Nghị định 13/2023:</strong> Phạt tới 5% doanh thu nếu đưa dữ liệu lương lên AI ngoài.</div>
+                  </li>
+                  <li class="dilemma-item">
+                    <span class="dot"></span>
+                    <div><strong>Điều 36 Bộ luật Lao động 2019:</strong> Nghiêm cấm sa thải nhân viên dựa trên đề xuất của máy.</div>
+                  </li>
+                </ul>
+              </div>
+              <div class="dilemma-bottom-callout">
+                🛡️ <strong>Nguyên tắc:</strong> AI là công cụ hỗ trợ tư duy, không có tư cách pháp lý hay lương tri.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: BẢN ĐỒ TƯ DUY (MINDMAP) & RADAR MINIMAP TƯƠNG TÁC -->
+      <section class="slide" id="slide-3">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag">SẢN PHẨM CỐT LÕI (SẢN PHẨM 4)</div>
+            <h2 class="slide-title">Sơ Đồ Tư Duy (Mindmap) & Bản Đồ Radar Phân Luồng AI</h2>
+          </div>
+          <div class="slide-subtitle">Kéo thả di chuyển vô cực • Cuộn chuột phóng to/thu nhỏ • Nhấp node để mở chi tiết</div>
+        </div>
+        <div class="slide-body">
+          <div class="map-container">
+            <div class="map-toolbar">
+              <div class="toolbar-left">
+                <!-- SEGMENTED VIEW SWITCHER -->
+                <div class="view-toggle">
+                  <button class="view-btn active" id="btnViewMindmap" onclick="switchMapView('mindmap')">
+                    <span>🧠</span> Sơ Đồ Tư Duy (Mindmap)
+                  </button>
+                  <button class="view-btn" id="btnViewBoard" onclick="switchMapView('board')">
+                    <span>📋</span> Bảng Ma Trận
+                  </button>
+                </div>
+
+                <!-- FILTER CHIPS -->
+                <div class="filter-group">
+                  <button class="filter-chip active" onclick="filterMap('all', this)">Tất cả (12)</button>
+                  <button class="filter-chip" onclick="filterMap('high', this)">🟢 AI Mạnh (3)</button>
+                  <button class="filter-chip" onclick="filterMap('hybrid', this)">🟡 Phối hợp (5)</button>
+                  <button class="filter-chip" onclick="filterMap('human', this)">🔴 Con người (4)</button>
+                </div>
+              </div>
+
+              <div class="toolbar-controls">
+                <button class="tool-icon-btn" onclick="zoomMindmap(0.15)" title="Phóng to (+)">+</button>
+                <button class="tool-icon-btn" onclick="zoomMindmap(-0.15)" title="Thu nhỏ (-)">−</button>
+                <button class="tool-icon-btn" onclick="resetMindmapView()" title="Về trọng tâm (Reset)">↺</button>
+                <div style="font-size: 11px; color: var(--text-dim); margin-left: 6px;">
+                  💡 Cuộn chuột / Kéo rê
+                </div>
+              </div>
+            </div>
+
+            <!-- VIEW 1: INTERACTIVE MINDMAP CANVAS & MINIMAP -->
+            <div class="mindmap-wrapper" id="mindmapWrapper">
+              <div class="mindmap-world" id="mindmapWorld">
+                <!-- SVG LAYER CHO CÁC NHÁNH ĐƯỜNG NỐI CONG -->
+                <svg class="mindmap-svg" id="mindmapSvg">
+                  <defs>
+                    <linearGradient id="gradTa" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#0284c7" />
+                      <stop offset="100%" stop-color="#10b981" />
+                    </linearGradient>
+                    <linearGradient id="gradLd" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#0284c7" />
+                      <stop offset="100%" stop-color="#8b5cf6" />
+                    </linearGradient>
+                    <linearGradient id="gradCb" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#0284c7" />
+                      <stop offset="100%" stop-color="#f59e0b" />
+                    </linearGradient>
+                    <linearGradient id="gradEr" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#0284c7" />
+                      <stop offset="100%" stop-color="#ef4444" />
+                    </linearGradient>
+                  </defs>
+
+                  <!-- 4 ĐƯỜNG TỪ GỐC ĐẾN 4 TRỤ CỘT -->
+                  <path id="edge-root-ta" class="mindmap-edge" stroke="url(#gradTa)" d="M 700 375 C 550 375, 530 200, 420 200" />
+                  <path id="edge-root-ld" class="mindmap-edge" stroke="url(#gradLd)" d="M 700 375 C 550 375, 530 550, 420 550" />
+                  <path id="edge-root-cb" class="mindmap-edge" stroke="url(#gradCb)" d="M 700 375 C 850 375, 870 200, 980 200" />
+                  <path id="edge-root-er" class="mindmap-edge" stroke="url(#gradEr)" d="M 700 375 C 850 375, 870 550, 980 550" />
+
+                  <!-- CÁC ĐƯỜNG TỪ TRỤ CỘT ĐẾN TỪNG NHIỆM VỤ -->
+                  <!-- TA Children (Trái trên) -->
+                  <path id="edge-NV01" class="mindmap-edge edge-ta edge-high" stroke="#10b981" d="M 420 200 C 310 200, 270 80, 160 80" />
+                  <path id="edge-NV02" class="mindmap-edge edge-ta edge-hybrid" stroke="#f59e0b" d="M 420 200 C 310 200, 270 160, 160 160" />
+                  <path id="edge-NV03" class="mindmap-edge edge-ta edge-high" stroke="#10b981" d="M 420 200 C 310 200, 270 240, 160 240" />
+                  <path id="edge-NV04" class="mindmap-edge edge-ta edge-human" stroke="#ef4444" d="M 420 200 C 310 200, 270 320, 160 320" />
+
+                  <!-- LD Children (Trái dưới) -->
+                  <path id="edge-NV05" class="mindmap-edge edge-ld edge-hybrid" stroke="#8b5cf6" d="M 420 550 C 310 550, 270 490, 160 490" />
+                  <path id="edge-NV06" class="mindmap-edge edge-ld edge-hybrid" stroke="#8b5cf6" d="M 420 550 C 310 550, 270 610, 160 610" />
+
+                  <!-- CB Children (Phải trên) -->
+                  <path id="edge-NV07" class="mindmap-edge edge-cb edge-high" stroke="#10b981" d="M 980 200 C 1090 200, 1130 140, 1240 140" />
+                  <path id="edge-NV08" class="mindmap-edge edge-cb edge-hybrid" stroke="#f59e0b" d="M 980 200 C 1090 200, 1130 260, 1240 260" />
+
+                  <!-- ER Children (Phải dưới) -->
+                  <path id="edge-NV09" class="mindmap-edge edge-er edge-human" stroke="#ef4444" d="M 980 550 C 1090 550, 1130 430, 1240 430" />
+                  <path id="edge-NV10" class="mindmap-edge edge-er edge-human" stroke="#ef4444" d="M 980 550 C 1090 550, 1130 510, 1240 510" />
+                  <path id="edge-NV11" class="mindmap-edge edge-er edge-hybrid" stroke="#f59e0b" d="M 980 550 C 1090 550, 1130 590, 1240 590" />
+                  <path id="edge-NV12" class="mindmap-edge edge-er edge-human" stroke="#ef4444" d="M 980 550 C 1090 550, 1130 670, 1240 670" />
+                </svg>
+
+                <!-- ROOT NODE (TRUNG TÂM) -->
+                <div class="mnode mnode-root" style="left: 700px; top: 375px;">
+                  <div class="root-tag">VỊ TRÍ NGHỀ NGHIỆP</div>
+                  <div class="root-name">CHUYÊN VIÊN NHÂN SỰ</div>
+                  <div class="root-meta">VietRetail Corp • 750 Cán Bộ Nhân Viên</div>
+                </div>
+
+                <!-- 4 MAIN BRANCH NODES -->
+                <!-- Nhánh 1: Tuyển dụng -->
+                <div class="mnode mnode-branch branch-ta" style="left: 420px; top: 200px;">
+                  <span>🌱</span> Thu Hút & Tuyển Dụng
+                </div>
+                <!-- Nhánh 2: Đào tạo -->
+                <div class="mnode mnode-branch branch-ld" style="left: 420px; top: 550px;">
+                  <span>📚</span> Đào Tạo & Phát Triển
+                </div>
+                <!-- Nhánh 3: Tiền lương -->
+                <div class="mnode mnode-branch branch-cb" style="left: 980px; top: 200px;">
+                  <span>💰</span> Tiền Lương & Đãi Ngộ
+                </div>
+                <!-- Nhánh 4: Pháp chế & Gắn kết -->
+                <div class="mnode mnode-branch branch-er" style="left: 980px; top: 550px;">
+                  <span>⚖️</span> Gắn Kết & Pháp Chế
+                </div>
+
+                <!-- 12 TASK NODES -->
+                <!-- TA (Left Top) -->
+                <div class="mnode mnode-task node-high" id="mnode-NV01" style="left: 160px; top: 80px;" onclick="inspectNode('NV01')">
+                  <div class="task-header">
+                    <span class="task-code">NV01</span>
+                    <span class="task-badge badge-high">AI Mạnh</span>
+                  </div>
+                  <div class="task-verb">Soạn thảo bản JD chuẩn hóa</div>
+                  <div class="task-sub">⏱️ Giảm 90% thời gian</div>
+                </div>
+
+                <div class="mnode-task mnode node-hybrid" id="mnode-NV02" style="left: 160px; top: 160px;" onclick="inspectNode('NV02')">
+                  <div class="task-header">
+                    <span class="task-code">NV02</span>
+                    <span class="task-badge badge-hybrid">Phối hợp</span>
+                  </div>
+                  <div class="task-verb">Đăng tin & Nguồn đa kênh</div>
+                  <div class="task-sub">📢 Viết thông điệp cá nhân</div>
+                </div>
+
+                <div class="mnode-task mnode node-high" id="mnode-NV03" style="left: 160px; top: 240px;" onclick="inspectNode('NV03')">
+                  <div class="task-header">
+                    <span class="task-code">NV03</span>
+                    <span class="task-badge badge-high">AI Mạnh</span>
+                  </div>
+                  <div class="task-verb">Lọc 500 CV tự động</div>
+                  <div class="task-sub">⚡ 5 phút thay vì 20 giờ</div>
+                </div>
+
+                <div class="mnode-task mnode node-human" id="mnode-NV04" style="left: 160px; top: 320px;" onclick="inspectNode('NV04')">
+                  <div class="task-header">
+                    <span class="task-code">NV04</span>
+                    <span class="task-badge badge-human">Con người</span>
+                  </div>
+                  <div class="task-verb">Phỏng vấn & Đánh giá văn hóa</div>
+                  <div class="task-sub">🤝 Đọc vị cảm xúc & EQ</div>
+                </div>
+
+                <!-- L&D (Left Bottom) -->
+                <div class="mnode-task mnode node-hybrid" id="mnode-NV05" style="left: 160px; top: 490px;" onclick="inspectNode('NV05')">
+                  <div class="task-header">
+                    <span class="task-code">NV05</span>
+                    <span class="task-badge badge-hybrid">Phối hợp</span>
+                  </div>
+                  <div class="task-verb">Tài liệu hội nhập & Chatbot 24/7</div>
+                  <div class="task-sub">🤖 Hỏi đáp quy chế nội bộ</div>
+                </div>
+
+                <div class="mnode-task mnode node-hybrid" id="mnode-NV06" style="left: 160px; top: 610px;" onclick="inspectNode('NV06')">
+                  <div class="task-header">
+                    <span class="task-code">NV06</span>
+                    <span class="task-badge badge-hybrid">Phối hợp</span>
+                  </div>
+                  <div class="task-verb">Lộ trình đào tạo kỹ năng số</div>
+                  <div class="task-sub">🎯 Cá nhân hóa bài học</div>
+                </div>
+
+                <!-- C&B (Right Top) -->
+                <div class="mnode-task mnode node-high" id="mnode-NV07" style="left: 1240px; top: 140px;" onclick="inspectNode('NV07')">
+                  <div class="task-header">
+                    <span class="task-code">NV07</span>
+                    <span class="task-badge badge-high">AI Mạnh</span>
+                  </div>
+                  <div class="task-verb">Tính toán công lương 750 người</div>
+                  <div class="task-sub">📊 5 phút chính xác 100%</div>
+                </div>
+
+                <div class="mnode-task mnode node-hybrid" id="mnode-NV08" style="left: 1240px; top: 260px;" onclick="inspectNode('NV08')">
+                  <div class="task-header">
+                    <span class="task-code">NV08</span>
+                    <span class="task-badge badge-hybrid">Phối hợp</span>
+                  </div>
+                  <div class="task-verb">Theo dõi & Cảnh báo chỉ số KPI</div>
+                  <div class="task-sub">📈 Báo cáo tiến độ thời gian thực</div>
+                </div>
+
+                <!-- ER (Right Bottom) -->
+                <div class="mnode-task mnode node-human" id="mnode-NV09" style="left: 1240px; top: 430px;" onclick="inspectNode('NV09')">
+                  <div class="task-header">
+                    <span class="task-code">NV09</span>
+                    <span class="task-badge badge-human">Con người</span>
+                  </div>
+                  <div class="task-verb">Khảo sát & Thấu cảm gắn kết</div>
+                  <div class="task-sub">💬 Đối thoại trực tiếp Town Hall</div>
+                </div>
+
+                <div class="mnode-task mnode node-human" id="mnode-NV10" style="left: 1240px; top: 510px;" onclick="inspectNode('NV10')">
+                  <div class="task-header">
+                    <span class="task-code">NV10</span>
+                    <span class="task-badge badge-human">Con người</span>
+                  </div>
+                  <div class="task-verb">Hòa giải mâu thuẫn & Kỷ luật</div>
+                  <div class="task-sub">🛑 Tuân thủ Điều 122 BLLĐ</div>
+                </div>
+
+                <div class="mnode-task mnode node-hybrid" id="mnode-NV11" style="left: 1240px; top: 590px;" onclick="inspectNode('NV11')">
+                  <div class="task-header">
+                    <span class="task-code">NV11</span>
+                    <span class="task-badge badge-hybrid">Phối hợp</span>
+                  </div>
+                  <div class="task-verb">Dự báo nguy cơ nghỉ việc sớm</div>
+                  <div class="task-sub">🔮 Phân tích dữ liệu quá khứ</div>
+                </div>
+
+                <div class="mnode-task mnode node-human" id="mnode-NV12" style="left: 1240px; top: 670px;" onclick="inspectNode('NV12')">
+                  <div class="task-header">
+                    <span class="task-code">NV12</span>
+                    <span class="task-badge badge-human">Con người</span>
+                  </div>
+                  <div class="task-verb">Bảo mật dữ liệu & Đạo đức AI</div>
+                  <div class="task-sub">🛡️ Tuân thủ Nghị định 13/2023</div>
+                </div>
+              </div>
+
+              <!-- RADAR MINIMAP (FLOATING CORNER COMPASS) -->
+              <div class="minimap-container" id="radarMinimap" onclick="onMinimapClick(event)">
+                <div class="minimap-header">RADAR MINIMAP</div>
+                <canvas class="minimap-canvas" id="minimapCanvas" width="170" height="100"></canvas>
+                <div class="minimap-lens" id="minimapLens"></div>
+              </div>
+            </div>
+
+            <!-- VIEW 2: BOARD VIEW (ALTERNATIVE TAB) -->
+            <div class="map-board" id="boardView">
+              <!-- CỘT 1: TUYỂN DỤNG -->
+              <div class="map-pillar pillar-ta">
+                <div class="pillar-header">
+                  <span class="pillar-title"><span>🌱</span> Thu Hút & Tuyển Dụng</span>
+                  <span style="font-size: 10px; color: var(--text-dim);">4 Nhiệm vụ</span>
+                </div>
+                <div class="node-list">
+                  <div class="map-node node-high" onclick="inspectNode('NV01')">
+                    <div class="node-header">
+                      <span class="node-code">NV01</span>
+                      <span class="level-badge level-ai-high">AI Mạnh</span>
+                    </div>
+                    <div class="node-verb">Soạn thảo bản mô tả công việc (JD)</div>
+                    <div class="node-metric">⏱️ Giảm 90% thời gian tạo nháp</div>
+                  </div>
+
+                  <div class="map-node node-hybrid" onclick="inspectNode('NV02')">
+                    <div class="node-header">
+                      <span class="node-code">NV02</span>
+                      <span class="level-badge level-ai-hybrid">Phối hợp</span>
+                    </div>
+                    <div class="node-verb">Đăng tin & Mở rộng nguồn đa kênh</div>
+                    <div class="node-metric">📢 Viết thông điệp cá nhân hóa</div>
+                  </div>
+
+                  <div class="map-node node-high" onclick="inspectNode('NV03')">
+                    <div class="node-header">
+                      <span class="node-code">NV03</span>
+                      <span class="level-badge level-ai-high">AI Mạnh</span>
+                    </div>
+                    <div class="node-verb">Sàng lọc & Chấm điểm hồ sơ CV</div>
+                    <div class="node-metric">⚡ Quét 500 CV trong 5 phút</div>
+                  </div>
+
+                  <div class="map-node node-human" onclick="inspectNode('NV04')">
+                    <div class="node-header">
+                      <span class="node-code">NV04</span>
+                      <span class="level-badge level-human">Con người</span>
+                    </div>
+                    <div class="node-verb">Phỏng vấn & Đánh giá văn hóa</div>
+                    <div class="node-metric">🤝 Đọc vị cảm xúc & Đạo đức</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CỘT 2: ĐÀO TẠO -->
+              <div class="map-pillar pillar-ld">
+                <div class="pillar-header">
+                  <span class="pillar-title"><span>📚</span> Đào Tạo & Phát Triển</span>
+                  <span style="font-size: 10px; color: var(--text-dim);">2 Nhiệm vụ</span>
+                </div>
+                <div class="node-list">
+                  <div class="map-node node-hybrid" onclick="inspectNode('NV05')">
+                    <div class="node-header">
+                      <span class="node-code">NV05</span>
+                      <span class="level-badge level-ai-hybrid">Phối hợp</span>
+                    </div>
+                    <div class="node-verb">Tài liệu hội nhập & Chatbot 24/7</div>
+                    <div class="node-metric">🤖 Giải đáp quy chế nội bộ</div>
+                  </div>
+
+                  <div class="map-node node-hybrid" onclick="inspectNode('NV06')">
+                    <div class="node-header">
+                      <span class="node-code">NV06</span>
+                      <span class="level-badge level-ai-hybrid">Phối hợp</span>
+                    </div>
+                    <div class="node-verb">Thiết kế lộ trình kỹ năng số</div>
+                    <div class="node-metric">🎯 Cá nhân hóa bài học</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CỘT 3: TIỀN LƯƠNG & HIỆU SUẤT -->
+              <div class="map-pillar pillar-cb">
+                <div class="pillar-header">
+                  <span class="pillar-title"><span>💰</span> Tiền Lương & Đãi Ngộ</span>
+                  <span style="font-size: 10px; color: var(--text-dim);">2 Nhiệm vụ</span>
+                </div>
+                <div class="node-list">
+                  <div class="map-node node-high" onclick="inspectNode('NV07')">
+                    <div class="node-header">
+                      <span class="node-code">NV07</span>
+                      <span class="level-badge level-ai-high">AI Mạnh</span>
+                    </div>
+                    <div class="node-verb">Tính toán công lương & Thưởng</div>
+                    <div class="node-metric">📊 5 phút cho 750 nhân sự</div>
+                  </div>
+
+                  <div class="map-node node-hybrid" onclick="inspectNode('NV08')">
+                    <div class="node-header">
+                      <span class="node-code">NV08</span>
+                      <span class="level-badge level-ai-hybrid">Phối hợp</span>
+                    </div>
+                    <div class="node-verb">Theo dõi & Cảnh báo chỉ số KPI</div>
+                    <div class="node-metric">📈 Báo cáo tiến độ tự động</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CỘT 4: GẮN KẾT & PHÁP CHẾ -->
+              <div class="map-pillar pillar-er">
+                <div class="pillar-header">
+                  <span class="pillar-title"><span>⚖️</span> Gắn Kết & Pháp Chế</span>
+                  <span style="font-size: 10px; color: var(--text-dim);">4 Nhiệm vụ</span>
+                </div>
+                <div class="node-list">
+                  <div class="map-node node-human" onclick="inspectNode('NV09')">
+                    <div class="node-header">
+                      <span class="node-code">NV09</span>
+                      <span class="level-badge level-human">Con người</span>
+                    </div>
+                    <div class="node-verb">Khảo sát & Thấu cảm gắn kết</div>
+                    <div class="node-metric">💬 Đối thoại trực tiếp Town Hall</div>
+                  </div>
+
+                  <div class="map-node node-human" onclick="inspectNode('NV10')">
+                    <div class="node-header">
+                      <span class="node-code">NV10</span>
+                      <span class="level-badge level-human">Con người</span>
+                    </div>
+                    <div class="node-verb">Hòa giải xung đột & Kỷ luật</div>
+                    <div class="node-metric">🛑 Tuân thủ Điều 122 BLLĐ</div>
+                  </div>
+
+                  <div class="map-node node-hybrid" onclick="inspectNode('NV11')">
+                    <div class="node-header">
+                      <span class="node-code">NV11</span>
+                      <span class="level-badge level-ai-hybrid">Phối hợp</span>
+                    </div>
+                    <div class="node-verb">Dự báo nguy cơ nghỉ việc sớm</div>
+                    <div class="node-metric">🔮 Mô hình phân tích xu hướng</div>
+                  </div>
+
+                  <div class="map-node node-human" onclick="inspectNode('NV12')">
+                    <div class="node-header">
+                      <span class="node-code">NV12</span>
+                      <span class="level-badge level-human">Con người</span>
+                    </div>
+                    <div class="node-verb">Bảo mật dữ liệu & Đạo đức AI</div>
+                    <div class="node-metric">🛡️ Tuân thủ Nghị định 13/2023</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: TUYỂN DỤNG & ĐÀO TẠO -->
+      <section class="slide" id="slide-4">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag">PHÂN TÍCH CHỨC NĂNG 1 & 2</div>
+            <h2 class="slide-title">Phễu Tuyển Dụng Thuật Toán & Nghịch Lý Đào Tạo</h2>
+          </div>
+          <div class="slide-subtitle">Sự kết hợp giữa tốc độ xử lý hàng loạt và năng lực thẩm định con người</div>
+        </div>
+        <div class="slide-body">
+          <div class="slide-split-2">
+            <!-- PHỄU TUYỂN DỤNG -->
+            <div class="funnel-container">
+              <div>
+                <span class="card-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">PHỄU LỌC 3 TẦNG</span>
+                <h3 style="font-size: 17px; margin: 6px 0 14px 0; color: #fff;">Tuyển Dụng: Máy Lọc Thô, Người Chọn Tinh</h3>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div class="funnel-step step-1">
+                  <div>
+                    <div class="funnel-label">Tầng 1: 500 Hồ sơ ứng tuyển (CV)</div>
+                    <div class="funnel-sub">AI quét từ khóa & trích xuất kỹ năng trong 5 phút</div>
+                  </div>
+                  <div class="funnel-stat" style="color: #10b981;">100%</div>
+                </div>
+                <div class="funnel-step step-2">
+                  <div>
+                    <div class="funnel-label">Tầng 2: 50 Hồ sơ đạt tiêu chuẩn</div>
+                    <div class="funnel-sub">HR rút mẫu 15% kiểm toán tránh thiên lệch thuật toán</div>
+                  </div>
+                  <div class="funnel-stat" style="color: #f59e0b;">10%</div>
+                </div>
+                <div class="funnel-step step-3">
+                  <div>
+                    <div class="funnel-label">Tầng 3: 5 Ứng viên nhận Offer</div>
+                    <div class="funnel-sub">Con người trực tiếp phỏng vấn EQ & đàm phán lương</div>
+                  </div>
+                  <div class="funnel-stat" style="color: #ef4444;">1%</div>
+                </div>
+              </div>
+              <div style="font-size: 11px; color: var(--text-dim); margin-top: 8px;">
+                ⚠️ <strong>Cảnh báo:</strong> Cấm dùng AI nhận diện biểu cảm khuôn mặt qua webcam (phi khoa học & xâm phạm nhân phẩm).
+              </div>
+            </div>
+
+            <!-- ĐÀO TẠO -->
+            <div class="funnel-container">
+              <div>
+                <span class="card-badge" style="background: rgba(139, 92, 246, 0.15); color: #c084fc;">ĐÀO TẠO SỐ HÓA</span>
+                <h3 style="font-size: 17px; margin: 6px 0 14px 0; color: #fff;">Đào Tạo: Máy Cung Cấp Tri Thức, Người Truyền Lửa</h3>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+                  <div style="font-size: 12.5px; font-weight: 700; color: #a78bfa; margin-bottom: 3px;">🤖 Vai trò của AI (Trợ lý số)</div>
+                  <div style="font-size: 11.5px; color: var(--text-muted); line-height: 1.5;">
+                    • Soạn bài giảng slide, tạo video người ảo hướng dẫn quy trình bán lẻ.<br>
+                    • Chatbot giải đáp quy chế công ty, chế độ phúc lợi 24/7 tức thì.
+                  </div>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+                  <div style="font-size: 12.5px; font-weight: 700; color: #f43f5e; margin-bottom: 3px;">🤝 Vai trò của HR (Người Dẫn Dắt - Mentor)</div>
+                  <div style="font-size: 11.5px; color: var(--text-muted); line-height: 1.5;">
+                    • Kèm cặp trực tiếp tại quầy kệ siêu thị, sửa đổi thái độ phục vụ.<br>
+                    • <strong>70% khóa học trực tuyến bị bỏ dở</strong> nếu thiếu sự đôn đốc & truyền cảm hứng từ con người.
+                  </div>
+                </div>
+              </div>
+              <div style="font-size: 11px; color: var(--text-dim); margin-top: 8px;">
+                🎯 <strong>Kết luận:</strong> Công nghệ chuẩn hóa quy trình, nhưng văn hóa doanh nghiệp chỉ lan tỏa qua con người.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: TIỀN LƯƠNG & CHỐT CHẶN PHÁP LÝ -->
+      <section class="slide" id="slide-5">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag">PHÂN TÍCH CHỨC NĂNG 3</div>
+            <h2 class="slide-title">Tiền Lương & Đãi Ngộ: Tốc Độ Máy Móc & Chữ Tình Quản Trị</h2>
+          </div>
+          <div class="slide-subtitle">Bảo đảm tính chính xác toán học 100% đi liền với sự thấu hiểu hoàn cảnh cá nhân</div>
+        </div>
+        <div class="slide-body">
+          <div class="compare-container">
+            <div class="compare-card">
+              <div>
+                <span class="card-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">TỐC ĐỘ XỬ LÝ DỮ LIỆU</span>
+                <h3 style="font-size: 18px; color: #fff; margin-top: 6px;">Tự Động Hóa Bảng Lương</h3>
+                <div class="speed-meter">
+                  <span class="speed-big">5 Phút</span>
+                  <span class="speed-label">thay vì 40 giờ thủ công</span>
+                </div>
+                <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6;">
+                  Thuật toán tự động liên kết dữ liệu chấm công vân tay, trừ phạt đi muộn, đối soát doanh số KPI và áp dụng mức giảm trừ gia cảnh để tính thuế TNCN cho toàn bộ 750 lao động.
+                </p>
+              </div>
+              <div style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; padding: 10px; border-radius: 6px; font-size: 11.5px; color: #a7f3d0;">
+                ✔️ Giảm 100% sai sót tính toán số học và nhầm lẫn công thức Excel.
+              </div>
+            </div>
+
+            <div class="compare-card" style="border-color: rgba(239, 68, 68, 0.3);">
+              <div>
+                <span class="card-badge" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">ĐIỂM KIỂM SOÁT BẮT BUỘC</span>
+                <h3 style="font-size: 18px; color: #fff; margin-top: 6px;">Chốt Chặn Của Chuyên Viên HR</h3>
+                <ul class="dilemma-list" style="margin: 14px 0;">
+                  <li class="dilemma-item">
+                    <span class="dot" style="background: #ef4444;"></span>
+                    <div><strong>Kiểm tra ngoại lệ:</strong> Chế độ thai sản, tai nạn lao động, nghỉ phép đột xuất gia đình.</div>
+                  </li>
+                  <li class="dilemma-item">
+                    <span class="dot" style="background: #ef4444;"></span>
+                    <div><strong>Đối thoại khiếu nại lương:</strong> Giải thích trực tiếp khi nhân viên thắc mắc bảng lương.</div>
+                  </li>
+                  <li class="dilemma-item">
+                    <span class="dot" style="background: #ef4444;"></span>
+                    <div><strong>Ký duyệt pháp lý:</strong> Chịu trách nhiệm trước Ban Giám đốc và Cơ quan Thuế/BHXH.</div>
+                  </li>
+                </ul>
+              </div>
+              <div style="background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; padding: 10px; border-radius: 6px; font-size: 11.5px; color: #fecdd3;">
+                ⚠️ Máy tính sai 1 đồng có thể châm ngòi cho tranh chấp lao động tập thể.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: 4 CHIẾC KHIÊN ĐỎ CẤM AI -->
+      <section class="slide" id="slide-6">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag" style="color: #ef4444;">VÙNG CẤM THUẬT TOÁN</div>
+            <h2 class="slide-title">4 Chiếc Khiên Đỏ: Ranh Giới Bắt Buộc Con Người Phải Quyết Định</h2>
+          </div>
+          <div class="slide-subtitle">Tuyệt đối không trao quyền phán xét số phận người lao động cho trí tuệ nhân tạo</div>
+        </div>
+        <div class="slide-body">
+          <div class="shields-grid">
+            <div class="shield-card">
+              <div class="shield-icon">🛑</div>
+              <div class="shield-content">
+                <h4>1. Quyết Định Kỷ Luật & Chấm Dứt Hợp Đồng</h4>
+                <p>AI không thể đánh giá tính chất lỗi vô ý hay cố ý. Chỉ con người mới có quyền tiến hành họp xử lý kỷ luật theo đúng trình tự pháp luật.</p>
+                <span class="legal-tag">Điều 122 Bộ luật Lao động 2019</span>
+              </div>
+            </div>
+
+            <div class="shield-card">
+              <div class="shield-icon">🤝</div>
+              <div class="shield-content">
+                <h4>2. Hòa Giải Mâu Thuẫn & Khiếu Nại Nội Bộ</h4>
+                <p>Mâu thuẫn giữa nhân viên với quản lý xuất phát từ cảm xúc, danh dự và quyền lợi. AI không có sự thấu cảm để ngồi đối thoại xoa dịu xung đột.</p>
+                <span class="legal-tag">Quan Hệ Lao Động (ER)</span>
+              </div>
+            </div>
+
+            <div class="shield-card">
+              <div class="shield-icon">🔒</div>
+              <div class="shield-content">
+                <h4>3. Bảo Vệ Dữ Liệu Nhân Sự & Đạo Đức AI</h4>
+                <p>Nghiêm cấm tải CCCD, số tài khoản, bệnh án, mức lương lên các công cụ AI công cộng. Nhân viên nhân sự chịu trách nhiệm hình sự & dân sự.</p>
+                <span class="legal-tag">Nghị định 13/2023/NĐ-CP</span>
+              </div>
+            </div>
+
+            <div class="shield-card">
+              <div class="shield-icon">❤️</div>
+              <div class="shield-content">
+                <h4>4. Phỏng Vấn Giữ Chân Nhân Tài Cốt Lõi</h4>
+                <p>AI có thể dự báo xác suất nghỉ việc, nhưng chỉ có HR mới có thể trò chuyện chân tình, tìm hiểu nguyện vọng và thiết kế lộ trình giữ chân.</p>
+                <span class="legal-tag">Phỏng Vấn Stay-Interview</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: THÁP NĂNG LỰC SINH VIÊN NĂM 2 -->
+      <section class="slide" id="slide-7">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag">ĐỊNH HƯỚNG BẢN THÂN</div>
+            <h2 class="slide-title">Tháp Năng Lực Cần Chuẩn Bị Cho Sinh Viên Quản Trị Kinh Doanh</h2>
+          </div>
+          <div class="slide-subtitle">Khung chuẩn năng lực kép kết hợp giữa Công nghệ AI và Bản lĩnh Quản trị</div>
+        </div>
+        <div class="slide-body">
+          <div class="pyramid-container">
+            <div class="pyramid-level pyramid-top">
+              <div class="level-info">
+                <h4>👑 TẦNG 3: TRÍ TUỆ CẢM XÚC & BẢN LĨNH ĐẠO ĐỨC</h4>
+                <p>Thấu cảm con người, kỹ năng đàm phán giải quyết xung đột, tư duy phản biện và trách nhiệm xã hội.</p>
+              </div>
+              <div class="level-tag" style="background: rgba(239, 68, 68, 0.3); color: #fca5a5;">Khác biệt độc bản</div>
+            </div>
+
+            <div class="pyramid-level pyramid-mid">
+              <div class="level-info">
+                <h4>⚖️ TẦNG 2: NGHIỆP VỤ QUẢN TRỊ & PHÁP LUẬT LAO ĐỘNG</h4>
+                <p>Nắm vững Bộ luật Lao động 2019, quy trình C&B, nghệ thuật phỏng vấn và quản trị hiệu suất tổ chức.</p>
+              </div>
+              <div class="level-tag" style="background: rgba(245, 158, 11, 0.3); color: #fde68a;">Cốt lõi ngành nghề</div>
+            </div>
+
+            <div class="pyramid-level pyramid-base">
+              <div class="level-info">
+                <h4>⚡ TẦNG 1: NĂNG LỰC SỐ & LÀM CHỦ CÔNG CỤ AI</h4>
+                <p>Kỹ năng ra lệnh cho AI (Prompt Engineering), phân tích dữ liệu People Analytics và kiểm định rủi ro thuật toán.</p>
+              </div>
+              <div class="level-tag" style="background: rgba(16, 185, 129, 0.3); color: #6ee7b7;">Kỹ năng nền tảng</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: KẾT LUẬN & HỎI ĐÁP PHẢN BIỆN GỬI GIẢNG VIÊN -->
+      <section class="slide" id="slide-8">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag">KẾT LUẬN & VẤN ĐÁP</div>
+            <h2 class="slide-title">Thông Điệp Bảo Vệ Đồ Án & Ngân Hàng Câu Hỏi Phản Biện</h2>
+          </div>
+          <div class="slide-subtitle">Sẵn sàng phản biện các tình huống thực tiễn cùng Hội đồng Giảng viên</div>
+        </div>
+        <div class="slide-body">
+          <div class="conclude-grid">
+            <div class="quote-box">
+              <div style="font-size: 34px;">🎯</div>
+              <div class="quote-text">
+                "Trí tuệ nhân tạo làm phần cơ bắp và tốc độ.<br>
+                Nhà quản trị kinh doanh giữ trọn trái tim, đạo đức và trách nhiệm quyết định."
+              </div>
+              <div class="quote-author">
+                — Đề Án Thực Hành Buổi 2 môn ECO384 • Nhóm Sinh viên Năm 2 QTKD
+              </div>
+              <div style="margin-top: 10px; display: flex; gap: 8px;">
+                <span class="nav-badge" style="background: #10b981;">Đạt 4/4 Mục tiêu</span>
+                <span class="nav-badge" style="background: #0284c7;">Chuẩn 6/6 Sản phẩm</span>
+                <span class="nav-badge" style="background: #8b5cf6;">Kiểm chứng thực tế</span>
+              </div>
+            </div>
+
+            <div class="qa-box">
+              <div class="qa-title">❓ 4 CÂU HỎI THƯỜNG GẶP CỦA GIẢNG VIÊN (BẤM ĐỂ MỞ CÂU TRẢ LỜI)</div>
+              
+              <div class="qa-item" onclick="toggleQA(this)">
+                <div class="qa-q">Q1. Tại sao không dùng AI hoàn toàn để sàng lọc CV nhằm tiết kiệm chi phí?</div>
+                <div class="qa-a">
+                  <strong>Trả lời:</strong> AI có "thiên vị thuật toán" (bias). Nếu chỉ dựa vào từ khóa, AI sẽ loại oan ứng viên có tiềm năng thực sự nhưng cách viết CV khác mẫu. HR bắt buộc phải rút mẫu 10-15% CV bị loại để kiểm toán lại.
+                </div>
+              </div>
+
+              <div class="qa-item" onclick="toggleQA(this)">
+                <div class="qa-q">Q2. Đưa dữ liệu bảng lương lên ChatGPT có vi phạm pháp luật không?</div>
+                <div class="qa-a">
+                  <strong>Trả lời:</strong> Có vi phạm nghiêm trọng! Nghị định 13/2023/NĐ-CP quy định thông tin thu nhập là dữ liệu cá nhân nhạy cảm. Đưa lên AI công cộng làm rò rỉ dữ liệu có thể bị xử phạt hành chính tới 5% tổng doanh thu.
+                </div>
+              </div>
+
+              <div class="qa-item" onclick="toggleQA(this)">
+                <div class="qa-q">Q3. Sinh viên năm 2 cần học gì trước để không bị AI cướp việc?</div>
+                <div class="qa-a">
+                  <strong>Trả lời:</strong> Không nên chỉ học soạn văn bản hay nhập liệu đơn thuần. Cần thành thạo kỹ năng đặt câu hỏi kiểm chứng (Prompting), am hiểu Bộ luật Lao động và rèn luyện kỹ năng giao tiếp thấu cảm đối thoại trực tiếp.
+                </div>
+              </div>
+
+              <div class="qa-item" onclick="toggleQA(this)">
+                <div class="qa-q">Q4. Doanh nghiệp có thể để AI tự động gửi thư sa thải không?</div>
+                <div class="qa-a">
+                  <strong>Trả lời:</strong> Hoàn toàn không được phép! Điều 36 và Điều 122 Bộ luật Lao động 2019 yêu cầu việc chấm dứt HĐLĐ phải có căn cứ rõ ràng, biên bản đối thoại và chữ ký của người đại diện theo pháp luật của công ty.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- BOTTOM BAR -->
+  <footer class="bottom-bar">
+    <div class="keyboard-hint">
+      <span>Điều khiển: <span class="kbd">◀</span> <span class="kbd">▶</span> Chuyển slide</span>
+      <span><span class="kbd">F</span> Toàn màn hình</span>
+      <span><span class="kbd">M</span> Mở Sơ Đồ Tư Duy (Mindmap)</span>
+    </div>
+    <div>
+      <span>Học phần ECO384: Ứng Dụng AI Trong Kinh Tế • GV Hướng Dẫn: Bộ môn Kinh tế số</span>
+    </div>
+  </footer>
+
+  <!-- DETAIL DRAWER MODAL -->
+  <div class="drawer-overlay" id="inspectDrawer" onclick="closeDrawer(event)">
+    <div class="drawer-box" onclick="event.stopPropagation()">
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <span class="level-badge" id="modalBadge" style="margin-bottom: 6px; display: inline-block;"></span>
+          <h3 id="modalTitle">Tiêu đề nhiệm vụ</h3>
+          <p id="modalSubtitle">Phân nhóm chức năng</p>
+        </div>
+        <button class="drawer-close" onclick="closeDrawerDirect()">✕</button>
+      </div>
+
+      <div class="drawer-grid">
+        <div class="drawer-pane">
+          <div class="drawer-pane-title">📥 Dữ liệu đầu vào (Input)</div>
+          <div class="drawer-pane-content" id="modalInput">...</div>
+        </div>
+
+        <div class="drawer-pane">
+          <div class="drawer-pane-title">🤖 AI Hỗ trợ cụ thể (AI Work)</div>
+          <div class="drawer-pane-content" id="modalAiWork">...</div>
+        </div>
+
+        <div class="drawer-pane">
+          <div class="drawer-pane-title">📤 Kết quả đầu ra (Output)</div>
+          <div class="drawer-pane-content" id="modalOutput">...</div>
+        </div>
+
+        <div class="drawer-pane">
+          <div class="drawer-pane-title">⚡ Hiệu suất & Công cụ khuyên dùng</div>
+          <div class="drawer-pane-content" id="modalEfficiency">...</div>
+        </div>
+
+        <div class="drawer-pane human-alert-pane">
+          <div class="drawer-pane-title">🛡️ Chốt chặn & Rủi ro con người bắt buộc kiểm soát</div>
+          <div class="drawer-pane-content" id="modalHumanCheck">...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DỮ LIỆU 12 NHIỆM VỤ CHI TIẾT
+    const tasksData = {
+      "NV01": {
+        code: "NV01",
+        title: "Soạn thảo Bản mô tả công việc (JD) chuẩn hóa",
+        group: "Thu Hút & Tuyển Dụng",
+        level: "high",
+        levelText: "🟢 AI HỖ TRỢ MẠNH",
+        input: "Chức danh tuyển dụng, ngành hàng bán lẻ, cấp bậc, khung ngân sách lương.",
+        aiWork: "AI tạo nháp cấu trúc JD chuẩn mực (trách nhiệm, quyền hạn, KPI) trong 15 giây; tối ưu hóa từ khóa chuẩn SEO tuyển dụng.",
+        output: "Bản thảo JD hoàn chỉnh, bộ tiêu chí đánh giá KSAOs, ngân hàng câu hỏi gợi ý.",
+        efficiency: "Giảm 90% thời gian soạn nháp. Công cụ: ChatGPT, Google Gemini.",
+        humanCheck: "Cảnh báo ảo giác AI (Hallucination) đặt ra yêu cầu siêu nhân phi thực tế với mức lương chi trả. HR bắt buộc khảo sát mức lương sàn thị trường để cân chỉnh lại."
+      },
+      "NV02": {
+        code: "NV02",
+        title: "Đăng tin & Mở rộng nguồn ứng viên đa kênh",
+        group: "Thu Hút & Tuyển Dụng",
+        level: "hybrid",
+        levelText: "🟡 AI PHỐI HỢP",
+        input: "Bản JD đã duyệt, chân dung ứng viên mục tiêu, nền tảng tuyển dụng (TopCV, LinkedIn, Facebook).",
+        aiWork: "Tạo các biến thể nội dung bài đăng theo văn phong hấp dẫn cho Gen Z, gợi ý tiêu đề thu hút ứng viên.",
+        output: "Bộ bài đăng tuyển dụng đa kênh, danh sách các nhóm cộng đồng tiềm năng.",
+        efficiency: "Tăng 300% độ phủ thông tin tuyển dụng. Công cụ: Canva AI, ChatGPT.",
+        humanCheck: "Ngăn chặn việc gửi tin nhắn tuyển dụng rác (spam) hàng loạt làm mất uy tín công ty. HR trực tiếp quản trị ngân sách quảng cáo và thương lượng với các trường đại học."
+      },
+      "NV03": {
+        code: "NV03",
+        title: "Sàng lọc & Chấm điểm hồ sơ ứng viên (Resume Screening)",
+        group: "Thu Hút & Tuyển Dụng",
+        level: "high",
+        levelText: "🟢 AI HỖ TRỢ MẠNH",
+        input: "500 file CV định dạng PDF/Word nộp về hệ thống.",
+        aiWork: "Bóc tách thông tin tự động (parsing), so khớp từ khóa kỹ năng, xếp hạng ứng viên theo độ tương thích từ cao xuống thấp.",
+        output: "Danh sách rút gọn (Shortlist) 50 hồ sơ tiềm năng nhất.",
+        efficiency: "Quét 500 hồ sơ trong 5 phút thay vì 20 giờ đọc thủ công. Công cụ: Phần mềm lọc CV tự động (ATS).",
+        humanCheck: "Nguy cơ thiên lệch thuật toán (Algorithmic Bias) loại bỏ ứng viên giỏi không viết đúng mẫu. HR bắt buộc rút mẫu kiểm toán 10-15% hồ sơ bị loại."
+      },
+      "NV04": {
+        code: "NV04",
+        title: "Phỏng vấn trực tiếp & Đánh giá mức độ phù hợp văn hóa",
+        group: "Thu Hút & Tuyển Dụng",
+        level: "human",
+        levelText: "🔴 CON NGƯỜI QUYẾT ĐỊNH",
+        input: "Danh sách hồ sơ rút gọn, mục tiêu phòng ban kinh doanh.",
+        aiWork: "Hỗ trợ ghi âm, chuyển giọng nói thành văn bản tóm tắt cuộc phỏng vấn.",
+        output: "Biên bản phỏng vấn, quyết định trúng tuyển, thư mời nhận việc (Offer Letter).",
+        efficiency: "AI chỉ đóng vai trò thư ký ghi chép; con người giữ 100% quyền phán xét.",
+        humanCheck: "Bắt buộc con người trực tiếp phỏng vấn đối thoại. Chỉ con người mới có trí tuệ xúc cảm (EQ) để thẩm định độ trung thực, nhân cách và khả năng hòa nhập văn hóa."
+      },
+      "NV05": {
+        code: "NV05",
+        title: "Phân tích nhu cầu & Thiết kế tài liệu hội nhập (Onboarding)",
+        group: "Đào Tạo & Phát Triển",
+        level: "hybrid",
+        levelText: "🟡 AI PHỐI HỢP",
+        input: "Sổ tay nhân viên, quy chế vận hành siêu thị, phản hồi nhân sự mới.",
+        aiWork: "Chuyển văn bản quy trình thành bài giảng số tương tác, slide tóm tắt, Chatbot hỏi đáp chính sách 24/7.",
+        output: "Cổng thông tin tự học trực tuyến cho nhân viên mới ngày đầu đi làm.",
+        efficiency: "Giảm 60% thời gian hỏi đáp các câu hỏi lặp đi lặp lại. Công cụ: Chatbot nội bộ, Notion AI.",
+        humanCheck: "Chatbot có thể trả lời sai chính sách bảo hiểm hoặc thai sản gây hiểu lầm. HR trực tiếp đón tiếp, chỉ định người kèm cặp (Mentor) và truyền cảm hứng văn hóa."
+      },
+      "NV06": {
+        code: "NV06",
+        title: "Thiết kế & Theo dõi lộ trình đào tạo kỹ năng số",
+        group: "Đào Tạo & Phát Triển",
+        level: "hybrid",
+        levelText: "🟡 AI PHỐI HỢP",
+        input: "Kết quả kiểm tra khoảng trống kỹ năng của 750 cán bộ nhân viên.",
+        aiWork: "Thuật toán gợi ý danh mục khóa học trực tuyến cá nhân hóa cho từng vị trí thu ngân, kho vận, bán hàng.",
+        output: "Lộ trình học tập số hóa theo lộ trình từng tuần của nhân viên.",
+        efficiency: "Tiết kiệm 50% chi phí mời giảng viên bên ngoài. Công cụ: Nền tảng LMS thông minh.",
+        humanCheck: "70% nhân viên bỏ dở việc tự học nếu không có người kèm cặp. HR phải tổ chức các buổi sát hạch thực tế và gắn kết quả học tập với cơ hội tăng lương thăng tiến."
+      },
+      "NV07": {
+        code: "NV07",
+        title: "Chấm công & Tính toán bảng lương, thưởng, bảo hiểm",
+        group: "Tiền Lương & Đãi Ngộ",
+        level: "high",
+        levelText: "🟢 AI HỖ TRỢ MẠNH",
+        input: "Dữ liệu máy chấm công khuôn mặt, bảng ca kíp 35 siêu thị, cơ chế thưởng KPI.",
+        aiWork: "Tự động đồng bộ số liệu, tính giờ tăng ca, trừ tiền phạt đi muộn, tính thuế TNCN và xuất bảng tính lương.",
+        output: "Bảng lương 750 nhân viên chuẩn xác từng xu, phiếu lương gửi tự động qua email.",
+        efficiency: "Rút ngắn thời gian từ 40 giờ xuống 5 phút. Công cụ: Phần mềm tiền lương thông minh, Power BI.",
+        humanCheck: "Kiểm tra kỹ các trường hợp ốm đau dài ngày, thai sản, khiếu nại công ca. Bảo mật tuyệt đối dữ liệu cá nhân theo Nghị định 13/2023/NĐ-CP."
+      },
+      "NV08": {
+        code: "NV08",
+        title: "Theo dõi & Phân tích chỉ số đánh giá hiệu suất định kỳ (KPIs)",
+        group: "Tiền Lương & Đãi Ngộ",
+        level: "hybrid",
+        levelText: "🟡 AI PHỐI HỢP",
+        input: "Dữ liệu doanh số bán hàng, tỷ lệ giao hàng từ hệ thống ERP công ty.",
+        aiWork: "Tự động tổng hợp bảng Dashboard số liệu thời gian thực, gửi cảnh báo đỏ cho các chi nhánh bị chậm tiến độ.",
+        output: "Báo cáo phân tích hiệu suất tuần/tháng, đề xuất phương án cải thiện.",
+        efficiency: "Cập nhật dữ liệu tức thì mỗi 60 phút. Công cụ: Tableau, Power BI.",
+        humanCheck: "Thuật toán đánh giá khô cứng có thể bỏ qua nguyên nhân khách quan (mưa bão, thị trường khó khăn). HR phải tổ chức buổi phản hồi 1-on-1 để tháo gỡ khó khăn cho nhân viên."
+      },
+      "NV09": {
+        code: "NV09",
+        title: "Khảo sát mức độ hài lòng & Lắng nghe gắn kết",
+        group: "Gắn Kết & Pháp Chế",
+        level: "human",
+        levelText: "🔴 CON NGƯỜI QUYẾT ĐỊNH",
+        input: "Phiếu khảo sát ẩn danh mức độ hạnh phúc tại nơi làm việc (eNPS).",
+        aiWork: "Phân tích sắc thái cảm xúc (Sentiment Analysis) từ các ý kiến phản hồi bằng chữ.",
+        output: "Báo cáo chỉ số gắn kết tổ chức, danh sách các điểm nóng cần khắc phục.",
+        efficiency: "Xử lý hàng nghìn câu trả lời khảo sát trong vài phút.",
+        humanCheck: "AI không hiểu được tiếng lóng hoặc ngữ cảnh văn hóa Việt. HR bắt buộc tổ chức các buổi đối thoại mở (Town Hall) để chân thành lắng nghe và xây dựng lòng tin nội bộ."
+      },
+      "NV10": {
+        code: "NV10",
+        title: "Hòa giải xung đột & Xử lý kỷ luật lao động hợp pháp",
+        group: "Gắn Kết & Pháp Chế",
+        level: "human",
+        levelText: "🔴 CON NGƯỜI QUYẾT ĐỊNH",
+        input: "Biên bản sự việc mâu thuẫn, bằng chứng vi phạm nội quy lao động.",
+        aiWork: "Tra cứu nhanh các điều khoản và án lệ liên quan trong Bộ luật Lao động.",
+        output: "Biên bản hòa giải thành công hoặc quyết định xử lý kỷ luật đúng luật.",
+        efficiency: "Hỗ trợ chuẩn hóa văn bản quy phạm.",
+        humanCheck: "Tuyệt đối không để AI quyết định kỷ luật hay sa thải nhân sự. Điều 122 Bộ luật Lao động 2019 yêu cầu quy trình họp kiểm điểm có mặt đương sự và đại diện Công đoàn."
+      },
+      "NV11": {
+        code: "NV11",
+        title: "Dự báo biến động & Đề xuất giải pháp giữ chân nhân tài",
+        group: "Gắn Kết & Pháp Chế",
+        level: "hybrid",
+        levelText: "🟡 AI PHỐI HỢP",
+        input: "Dữ liệu thâm niên, số ngày nghỉ phép, hiệu suất, mức tăng lương trong quá khứ.",
+        aiWork: "Mô hình máy học nhận diện sớm nhân sự có nguy cơ nộp đơn nghỉ việc trong 60 ngày tới.",
+        output: "Báo cáo cảnh báo tỷ lệ biến động nhân sự (Turnover forecast).",
+        efficiency: "Cảnh báo sớm giúp tổ chức chủ động nguồn lực dự phòng.",
+        humanCheck: "Không được dán nhãn định kiến lên nhân viên bị AI gắn cờ. HR trực tiếp hẹn gặp phỏng vấn giữ chân (Stay Interview) nhẹ nhàng, hỗ trợ điều chỉnh chế độ đãi ngộ."
+      },
+      "NV12": {
+        code: "NV12",
+        title: "Bảo mật dữ liệu nhân sự & Kiểm soát tuân thủ đạo đức AI",
+        group: "Gắn Kết & Pháp Chế",
+        level: "human",
+        levelText: "🔴 CON NGƯỜI QUYẾT ĐỊNH",
+        input: "Bộ luật Lao động 2019, Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân.",
+        aiWork: "Quét lỗ hổng rò rỉ dữ liệu, phát hiện thông tin nhạy cảm chưa được mã hóa.",
+        output: "Bộ quy chế sử dụng AI có trách nhiệm (Responsible AI Policy) tại công ty.",
+        efficiency: "Tự động hóa rà soát hệ thống 24/7.",
+        humanCheck: "Chuyên viên HR chịu trách nhiệm cao nhất trước Ban Giám đốc và Pháp luật nếu để xảy ra rò rỉ dữ liệu cá nhân của người lao động. Chế tài phạt lên tới 5% doanh thu."
+      }
+    };
+
+    // QUẢN LÝ SLIDE
+    let currentSlide = 1;
+    const totalSlides = 8;
+
+    function showSlide(index) {
+      if (index < 1) index = 1;
+      if (index > totalSlides) index = totalSlides;
+      currentSlide = index;
+
+      document.querySelectorAll('.slide').forEach((slide, idx) => {
+        slide.classList.toggle('active', (idx + 1) === currentSlide);
+      });
+
+      document.getElementById('slideIndicator').textContent = 
+        `${String(currentSlide).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+
+      // Nếu chuyển tới slide 3, tự động căn giữa mindmap
+      if (currentSlide === 3) {
+        setTimeout(initMindmap, 50);
+      }
+    }
+
+    function nextSlide() { showSlide(currentSlide + 1); }
+    function prevSlide() { showSlide(currentSlide - 1); }
+    function jumpToSlide(num) { showSlide(num); }
+
+    // ĐIỀU KHIỂN BÀN PHÍM
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'Home') {
+        showSlide(1);
+      } else if (e.key === 'End') {
+        showSlide(totalSlides);
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      } else if (e.key.toLowerCase() === 'm') {
+        jumpToSlide(3);
+      } else if (e.key === 'Escape') {
+        closeDrawerDirect();
+      }
+    });
+
+    // TOÀN MÀN HÌNH
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.log(err));
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // ============================================================
+    // QUẢN LÝ SƠ ĐỒ TƯ DUY (MINDMAP) + RADAR MINIMAP
+    // ============================================================
+    let panX = 0;
+    let panY = 0;
+    let scale = 1;
+    const worldWidth = 1400;
+    const worldHeight = 750;
+
+    let isPanning = false;
+    let startMouseX = 0;
+    let startMouseY = 0;
+    let startPanX = 0;
+    let startPanY = 0;
+
+    // Vị trí node phục vụ vẽ minimap
+    const mapNodesCoordinates = [
+      { id: 'root', x: 700, y: 375, color: '#38bdf8', r: 7 },
+      { id: 'ta', x: 420, y: 200, color: '#10b981', r: 5 },
+      { id: 'ld', x: 420, y: 550, color: '#8b5cf6', r: 5 },
+      { id: 'cb', x: 980, y: 200, color: '#f59e0b', r: 5 },
+      { id: 'er', x: 980, y: 550, color: '#ef4444', r: 5 },
+      // TA Tasks
+      { id: 'NV01', x: 160, y: 80, color: '#10b981', r: 3.5, level: 'high' },
+      { id: 'NV02', x: 160, y: 160, color: '#f59e0b', r: 3.5, level: 'hybrid' },
+      { id: 'NV03', x: 160, y: 240, color: '#10b981', r: 3.5, level: 'high' },
+      { id: 'NV04', x: 160, y: 320, color: '#ef4444', r: 3.5, level: 'human' },
+      // LD Tasks
+      { id: 'NV05', x: 160, y: 490, color: '#8b5cf6', r: 3.5, level: 'hybrid' },
+      { id: 'NV06', x: 160, y: 610, color: '#8b5cf6', r: 3.5, level: 'hybrid' },
+      // CB Tasks
+      { id: 'NV07', x: 1240, y: 140, color: '#10b981', r: 3.5, level: 'high' },
+      { id: 'NV08', x: 1240, y: 260, color: '#f59e0b', r: 3.5, level: 'hybrid' },
+      // ER Tasks
+      { id: 'NV09', x: 1240, y: 430, color: '#ef4444', r: 3.5, level: 'human' },
+      { id: 'NV10', x: 1240, y: 510, color: '#ef4444', r: 3.5, level: 'human' },
+      { id: 'NV11', x: 1240, y: 590, color: '#f59e0b', r: 3.5, level: 'hybrid' },
+      { id: 'NV12', x: 1240, y: 670, color: '#ef4444', r: 3.5, level: 'human' }
+    ];
+
+    function initMindmap() {
+      const wrapper = document.getElementById('mindmapWrapper');
+      if (!wrapper) return;
+      const wWidth = wrapper.clientWidth;
+      const wHeight = wrapper.clientHeight;
+
+      // Tính scale vừa vặn khung hình
+      const scaleX = wWidth / worldWidth;
+      const scaleY = wHeight / worldHeight;
+      scale = Math.min(scaleX, scaleY) * 0.96;
+      if (scale < 0.5) scale = 0.5;
+
+      panX = (wWidth - worldWidth * scale) / 2;
+      panY = (wHeight - worldHeight * scale) / 2;
+
+      applyMindmapTransform();
+      renderRadarMinimap();
+    }
+
+    function applyMindmapTransform() {
+      const world = document.getElementById('mindmapWorld');
+      if (world) {
+        world.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+      }
+      updateMinimapLens();
+    }
+
+    function zoomMindmap(delta) {
+      const wrapper = document.getElementById('mindmapWrapper');
+      if (!wrapper) return;
+      const cx = wrapper.clientWidth / 2;
+      const cy = wrapper.clientHeight / 2;
+
+      const oldScale = scale;
+      scale = Math.max(0.45, Math.min(2.2, scale + delta));
+
+      panX = cx - (cx - panX) * (scale / oldScale);
+      panY = cy - (cy - panY) * (scale / oldScale);
+
+      applyMindmapTransform();
+    }
+
+    function resetMindmapView() {
+      initMindmap();
+    }
+
+    // XỬ LÝ KÉO RÊ TRÊN MINDMAP WRAPPER
+    const mWrapper = document.getElementById('mindmapWrapper');
+    if (mWrapper) {
+      mWrapper.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.mnode-task') || e.target.closest('.minimap-container')) return;
+        isPanning = true;
+        startMouseX = e.clientX;
+        startMouseY = e.clientY;
+        startPanX = panX;
+        startPanY = panY;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isPanning) return;
+        const dx = e.clientX - startMouseX;
+        const dy = e.clientY - startMouseY;
+        panX = startPanX + dx;
+        panY = startPanY + dy;
+        applyMindmapTransform();
+      });
+
+      window.addEventListener('mouseup', () => {
+        isPanning = false;
+      });
+
+      // CUỘN CHUỘT PHÓNG TO / THU NHỎ TẠI VỊ TRÍ CON TRỎ
+      mWrapper.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const rect = mWrapper.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+        const oldScale = scale;
+        const newScale = Math.max(0.45, Math.min(2.2, scale * zoomFactor));
+
+        panX = mouseX - (mouseX - panX) * (newScale / oldScale);
+        panY = mouseY - (mouseY - panY) * (newScale / oldScale);
+        scale = newScale;
+
+        applyMindmapTransform();
+      }, { passive: false });
+    }
+
+    // ============================================================
+    // VẼ RADAR MINIMAP
+    // ============================================================
+    const minimapCanvas = document.getElementById('minimapCanvas');
+    const minimapCtx = minimapCanvas ? minimapCanvas.getContext('2d') : null;
+
+    function renderRadarMinimap() {
+      if (!minimapCtx) return;
+      const cW = minimapCanvas.width;
+      const cH = minimapCanvas.height;
+
+      minimapCtx.clearRect(0, 0, cW, cH);
+
+      // Nền lưới radar
+      minimapCtx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+      minimapCtx.lineWidth = 1;
+      for (let x = 0; x < cW; x += 25) {
+        minimapCtx.beginPath();
+        minimapCtx.moveTo(x, 0);
+        minimapCtx.lineTo(x, cH);
+        minimapCtx.stroke();
+      }
+      for (let y = 0; y < cH; y += 20) {
+        minimapCtx.beginPath();
+        minimapCtx.moveTo(0, y);
+        minimapCtx.lineTo(cW, y);
+        minimapCtx.stroke();
+      }
+
+      // Vẽ các node trên minimap
+      mapNodesCoordinates.forEach(node => {
+        const mx = (node.x / worldWidth) * cW;
+        const my = (node.y / worldHeight) * cH;
+
+        minimapCtx.fillStyle = node.color;
+        minimapCtx.beginPath();
+        minimapCtx.arc(mx, my, node.r * 0.7, 0, Math.PI * 2);
+        minimapCtx.fill();
+      });
+
+      updateMinimapLens();
+    }
+
+    function updateMinimapLens() {
+      const lens = document.getElementById('minimapLens');
+      const wrapper = document.getElementById('mindmapWrapper');
+      if (!lens || !wrapper) return;
+
+      const cW = 170;
+      const cH = 100;
+      const vW = wrapper.clientWidth;
+      const vH = wrapper.clientHeight;
+
+      // Tính phạm vi hiển thị hiện tại trong không gian world
+      const worldVisibleLeft = -panX / scale;
+      const worldVisibleTop = -panY / scale;
+      const worldVisibleWidth = vW / scale;
+      const worldVisibleHeight = vH / scale;
+
+      const lensX = Math.max(0, (worldVisibleLeft / worldWidth) * cW);
+      const lensY = Math.max(0, (worldVisibleTop / worldHeight) * cH);
+      const lensW = Math.min(cW - lensX, (worldVisibleWidth / worldWidth) * cW);
+      const lensH = Math.min(cH - lensY, (worldVisibleHeight / worldHeight) * cH);
+
+      lens.style.left = `${lensX}px`;
+      lens.style.top = `${lensY}px`;
+      lens.style.width = `${lensW}px`;
+      lens.style.height = `${lensH}px`;
+    }
+
+    function onMinimapClick(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      const targetWorldX = (clickX / 170) * worldWidth;
+      const targetWorldY = (clickY / 100) * worldHeight;
+
+      const wrapper = document.getElementById('mindmapWrapper');
+      if (!wrapper) return;
+      panX = wrapper.clientWidth / 2 - targetWorldX * scale;
+      panY = wrapper.clientHeight / 2 - targetWorldY * scale;
+
+      applyMindmapTransform();
+    }
+
+    // CHUYỂN ĐỔI CHẾ ĐỘ VIEW (MINDMAP vs BẢNG BOARD)
+    function switchMapView(mode) {
+      const btnMindmap = document.getElementById('btnViewMindmap');
+      const btnBoard = document.getElementById('btnViewBoard');
+      const mindmapWrapper = document.getElementById('mindmapWrapper');
+      const boardView = document.getElementById('boardView');
+
+      if (mode === 'mindmap') {
+        btnMindmap.classList.add('active');
+        btnBoard.classList.remove('active');
+        mindmapWrapper.style.display = 'block';
+        boardView.classList.remove('active');
+        setTimeout(initMindmap, 30);
+      } else {
+        btnBoard.classList.add('active');
+        btnMindmap.classList.remove('active');
+        mindmapWrapper.style.display = 'none';
+        boardView.classList.add('active');
+      }
+    }
+
+    // BỘ LỌC TRÊN CẢ SƠ ĐỒ TƯ DUY & MA TRẬN
+    function filterMap(type, btn) {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+
+      // 1. Lọc trên Board view
+      const boardNodes = document.querySelectorAll('.map-node');
+      boardNodes.forEach(node => {
+        if (type === 'all') {
+          node.style.display = 'block';
+        } else if (type === 'high') {
+          node.style.display = node.classList.contains('node-high') ? 'block' : 'none';
+        } else if (type === 'hybrid') {
+          node.style.display = node.classList.contains('node-hybrid') ? 'block' : 'none';
+        } else if (type === 'human') {
+          node.style.display = node.classList.contains('node-human') ? 'block' : 'none';
+        }
+      });
+
+      // 2. Lọc trên Sơ đồ tư duy (Mindmap)
+      const taskNodes = document.querySelectorAll('.mnode-task');
+      taskNodes.forEach(node => {
+        if (type === 'all') {
+          node.classList.remove('dimmed');
+        } else if (type === 'high') {
+          node.classList.toggle('dimmed', !node.classList.contains('node-high'));
+        } else if (type === 'hybrid') {
+          node.classList.toggle('dimmed', !node.classList.contains('node-hybrid'));
+        } else if (type === 'human') {
+          node.classList.toggle('dimmed', !node.classList.contains('node-human'));
+        }
+      });
+
+      // Lọc các đường nối trên SVG
+      const edges = document.querySelectorAll('.mindmap-edge[id^="edge-NV"]');
+      edges.forEach(edge => {
+        if (type === 'all') {
+          edge.classList.remove('dimmed');
+        } else if (type === 'high') {
+          edge.classList.toggle('dimmed', !edge.classList.contains('edge-high'));
+        } else if (type === 'hybrid') {
+          edge.classList.toggle('dimmed', !edge.classList.contains('edge-hybrid'));
+        } else if (type === 'human') {
+          edge.classList.toggle('dimmed', !edge.classList.contains('edge-human'));
+        }
+      });
+    }
+
+    // XEM CHI TIẾT NHIỆM VỤ (INSPECT NODE)
+    function inspectNode(nvCode) {
+      const data = tasksData[nvCode];
+      if (!data) return;
+
+      const badge = document.getElementById('modalBadge');
+      badge.textContent = data.levelText;
+      badge.className = 'level-badge ' + (
+        data.level === 'high' ? 'level-ai-high' :
+        data.level === 'hybrid' ? 'level-ai-hybrid' : 'level-human'
+      );
+
+      document.getElementById('modalTitle').textContent = `${data.code} • ${data.title}`;
+      document.getElementById('modalSubtitle').textContent = `Mảng nghiệp vụ: ${data.group}`;
+      document.getElementById('modalInput').textContent = data.input;
+      document.getElementById('modalAiWork').textContent = data.aiWork;
+      document.getElementById('modalOutput').textContent = data.output;
+      document.getElementById('modalEfficiency').textContent = data.efficiency;
+      document.getElementById('modalHumanCheck').textContent = data.humanCheck;
+
+      document.getElementById('inspectDrawer').classList.add('open');
+    }
+
+    function closeDrawer(event) {
+      document.getElementById('inspectDrawer').classList.remove('open');
+    }
+
+    function closeDrawerDirect() {
+      document.getElementById('inspectDrawer').classList.remove('open');
+    }
+
+    // MỞ RỘNG CÂU HỎI VẤN ĐÁP
+    function toggleQA(element) {
+      element.classList.toggle('open');
+    }
+
+    // KHỞI CHẠY MẶC ĐỊNH
+    window.addEventListener('load', () => {
+      initMindmap();
+    });
+  </script>
+</body>
+</html>
